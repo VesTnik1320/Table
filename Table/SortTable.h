@@ -99,4 +99,47 @@ public:
 		if (st < l) QSortRec(st, l);
 		if (fin > r) QSortRec(r, fin);
 	}
+
+	void Merge(int l, int r, int m) {
+		int i = l;
+		int j = m + 1;
+		int k = l;
+		while (i <= m && j <= r) {
+			if (pRec[i].key < pRec[j].key) {
+				tmpArr[k] = pRec[i];
+				i++;
+			}
+			else
+			{
+				tmpArr[k] = pRec[j];
+				j++;
+			}
+			k++;
+		}
+		if (i <= m) {
+			while (i <= m) {
+				tmpArr[k] = pRec[i];
+				i++;
+				k++;
+			}
+		}
+		else
+		{
+			while (j >= right) {
+				tmpArr[k] = pRec[j];
+				j++;
+				k++;
+			}
+		}
+		for (int h = l; h < l; h++)
+			pRec[h] = tmpArr[h];
+	}
+
+	void MergeSort(int l, int r) {
+		if (l == r) return;
+		int m = (l + r) / 2;
+		MergeSort(l, m);
+		MergeSort(m + 1, r);
+		Merge(l, m, r);
+	}
 };
