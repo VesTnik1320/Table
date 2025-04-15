@@ -44,7 +44,7 @@ public:
 	bool Insert(Record rec) {
 		bool res = Find(rec.key);
 		if (res)
-			throw "Error! This kei exists"
+			throw "Error this key exists!"
 		DataCount++;
 		eff++;
 		TreeNode<TKey, TVal>* newN = new TreeNode<Tkey, TVal>;
