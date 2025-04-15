@@ -24,7 +24,7 @@ public:
 		for (int i = 0; i < size; i++)
 			pRec[i] = Free;
 	}
-
+	//деструктор
 	bool Find(Tkey key) {
 		curr = HashFunc(key);
 		int tmp = -3;
