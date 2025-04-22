@@ -9,7 +9,7 @@ template< typename TKey, typename TVal>
 struct TreeNode {
 	TRecord <TKey, TVal> rec;
 	TreeNode* pLeft, * pRight;
-	int bol;
+	int bol,pos,level;
 };
 
 template <typename Tkey, typename TVal>
@@ -61,6 +61,76 @@ public:
 		return true;
 	}
 
-	
+	void Delete(Tkey key){
+		bool res = Find(key);
+		if (!res) return;
+		TreeNode<Tkey, TVal>* pDel = pCurr;
+		if (pCurr->pRight == nullptr) {
+			if (pPrev == nullptr) pRoof = pCurr->pLeft;
+			else
+				pPrev->pLeft = pCurr->pLeft;
+		}
+		else if (pCurr->pLeft == nullptr) {
+				if (pPrev == nullptr)
+					pRoof = pCurr->pRight;
+				else
+					if (pCurr = pPrev->pRight)
+						pPrev->pLeft = pCurr->pRight;
+					else
+						pPrev->pRight = pCurr->pRight;
+			
+		}
+		else
+		{
+			TreeNode<Tkey, TVal>* pN = pCurr->pLeft;
+			pPrev = pCurr;
+			while (pN->pRight != nullptr) {
+				pPrev = pN;
+				eff++;
+				pN = pN->pRight;
+			}
+			pCurr->rec = pN->rec;
+			if (pCurr->pLeft == pN)
+				pCurr->pLeft = pN->pLeft;
+			else
+				pPrev->pRight = pN->pLeft;
+			pDel = pN;
+		}
+		delete pDel;
+		DataCount--;
+		eff++;
+		}
+
+	void Reset() {
+		pCurr = pRoof;
+		stack.clear();
+		while (pCurr->pLeft != nullptr)
+		{
+			stack.push(pCurr);
+			pCurr = pCurr->pLeft;
+		}
+		stack.push(pCurr);
+		pos = 0;
+	}
+
+	void GoNext() {
+		pCurr = pCurr->pRight;
+		stack.pop();
+		if ((pCurr == nullptr) && (!stack.Empty()))
+			pCurr = stack.pop();
+		else {
+			while (pCurr->pLeft != nullptr)
+			{
+				stack.push(pCurr);
+				pCurr = pCurr->pLeft;
+			}
+			stack.push(pCurr);
+		}
+		pos++;
+	}
+
+	bool IsEnd() {
+		return (pos == DataCount);
+	}
 
 };
