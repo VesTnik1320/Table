@@ -3,9 +3,9 @@
 #include "Table.h"
 
 template <typename Tkey, typename TVal>
-class SccanTable : public ArrayTable {
+class ScanTable : public ArrayTable<TKey, TVal> {
 
-	SccanTable(int _size) : ArrayTable(_size) {}
+	ScanTable(int _size) : ArrayTable<TKey, TVal>(_size) {}
 
 	bool Find(Tkey key) {
 		for (int i = 0; i < DataCount; i++) {
@@ -22,7 +22,7 @@ class SccanTable : public ArrayTable {
 	void Insert(Record record) {
 		if (Find(record.key))
 			throw - 2;
-		//проверка на полноту
+		if (dataCount == size) throw - 1;
 		pRec[Curr] = record;
 		DataCount++;
 		eff++;

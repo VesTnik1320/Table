@@ -5,7 +5,7 @@
 #include "SortTable.h"
 
 template <typename Tkey, typename TVal>
-class HashTable : public Table {
+class HashTable : public Table<TKey, TVal> {
 protected:
 	int size;
 	virtual int HashFunc(Tkey key) {

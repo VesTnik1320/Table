@@ -8,7 +8,7 @@
 enum Status {Free, Deleted, Used};
 
 template <typename Tkey, typename TVal>
-class ArrayHashTable: public HashTable
+class ArrayHashTable: public HashTable<TKey, TVal>
 {
 protected:
 	Record<Tkey, TVal>* pRec;

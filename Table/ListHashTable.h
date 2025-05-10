@@ -8,7 +8,7 @@
 #include <iterator>
 
 template <typename Tkey, typename TVal>
-class ListHashTable : public HashTable
+class ListHashTable : public HashTable<TKey, TVal>
 {
 protected:
 	List<TRecord<Tkey, TVal>>* pList;

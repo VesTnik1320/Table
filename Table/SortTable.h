@@ -4,7 +4,7 @@
 #include "ScanTable.h"
 
 template <typename Tkey, typename TVal>
-class SortTable : public ScanTable {
+class SortTable : public ScanTable<TKey, TVal> {
 public:
 	SortTable(int _size) : SccanTable(_size) {}
 

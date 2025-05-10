@@ -4,7 +4,7 @@
 #include "ScanTable.h"
 #include "SortTable.h"
 #include "Record.h"
-
+const int BAL_OK = 0; const int BAL_LEFT = -1; const int BAL_RIGHT = 1;
 template< typename TKey, typename TVal>
 struct TreeNode {
 	TRecord <TKey, TVal> rec;
@@ -13,7 +13,7 @@ struct TreeNode {
 };
 
 template <typename Tkey, typename TVal>
-class TreeTable : public Table {
+class TreeTable : public Table<TKey, TVal> {
 protected:
 	TreeNode<TKey, TVal> *pRoof, *pCurr, *pPrev;
 	Stack<TreeNode*> st;

@@ -138,6 +138,7 @@
   <ItemGroup>
     <ClInclude Include="ArrayHashTable.h" />
     <ClInclude Include="ArrayTable.h" />
+    <ClInclude Include="BalTreeTable.h" />
     <ClInclude Include="HashTable.h" />
     <ClInclude Include="ListHashTable.h" />
     <ClInclude Include="Record.h" />
