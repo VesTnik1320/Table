@@ -2,11 +2,11 @@
 #include "ArrayTable.h"
 #include "Table.h"
 #include "ScanTable.h"
-
+#include "Record.h"
 template <typename Tkey, typename TVal>
-class SortTable : public ScanTable<TKey, TVal> {
+class SortTable : public ScanTable<Tkey, TVal> {
 public:
-	SortTable(int _size) : SccanTable(_size) {}
+	SortTable(int _size) : ScanTable(_size) {}
 
 	bool Find(Tkey key) {
 		int l = 0, r = DataCount - 1;
@@ -36,20 +36,26 @@ public:
 		return false;
 	}
 
-	int InsRec(TRecord rec) {
-		if (isFull()) throw - 1;
-		bool res = Find(rec.key);
-		if (res) throw - 2;
-		for (int i = DataCount; i > Curr; i++) {
-			pRec[i] = rec[i - 1];
-			eff++;
+	int Insert(Tkey key) {
+		if (this->IsFull())
+			throw - 1;  // Таблица заполнена
+
+		bool res = this->Find(key);
+		if (res)
+			throw - 2;  // Такой ключ уже есть
+
+		for (int i = this->DataCount; i > this->Curr; i--) {
+			this->pRec[i] = this->pRec[i - 1];
+			this->eff++;
 		}
-		pRec[Curr] = rec;
-		DataCount++;
+
+		this->pRec[this->Curr].key = key;
+		this->DataCount++;
 		return 0;
 	}
 
-	void DelRec(Tkey key) {
+
+	void Delete(Tkey key) {
 		bool res = Find(key);
 		if (res == false) throw - 1;
 		for (int i = Curr; i < DataCount - 1; i++) {

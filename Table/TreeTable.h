@@ -5,22 +5,25 @@
 #include "SortTable.h"
 #include "Record.h"
 const int BAL_OK = 0; const int BAL_LEFT = -1; const int BAL_RIGHT = 1;
-template< typename TKey, typename TVal>
+template< typename Tkey, typename TVal>
 struct TreeNode {
-	TRecord <TKey, TVal> rec;
+	Record<Tkey, TVal> rec;
 	TreeNode* pLeft, * pRight;
 	int bol,pos,level;
 };
 
 template <typename Tkey, typename TVal>
-class TreeTable : public Table<TKey, TVal> {
+class TreeTable : public Table<Tkey, TVal> {
 protected:
-	TreeNode<TKey, TVal> *pRoof, *pCurr, *pPrev;
+	TreeNode<Tkey, TVal> *pRoof, *pCurr, *pPrev;
 	Stack<TreeNode*> st;
 public:
+	virtual TKey GetCurrKey() { return pCurr->rec.key; }
+	virtual TVal GetCurrVal() { return pCurr->rec.val; }
+	virtual Record<Tkey, TVal> GetCurrRec() { return pCurr->rec; }
 	//конструктор - ставим все на nullptr
 	//деструктор - когда-нибудь попозже( будет обход всей структуры)
-	bool Find(TKey key) {
+	bool Find(Tkey key) {
 		pCurr = pRoof;
 		pPrev = nullptr;
 		while (pCurr != nullptr) {
@@ -44,10 +47,10 @@ public:
 	bool Insert(Record rec) {
 		bool res = Find(rec.key);
 		if (res)
-			throw "Error this key exists!"
+			throw "Error this key exists!";
 		DataCount++;
 		eff++;
-		TreeNode<TKey, TVal>* newN = new TreeNode<Tkey, TVal>;
+		TreeNode<Tkey, TVal>* newN = new TreeNode<Tkey, TVal>;
 		newN->rec = rec;
 		pLeft = nullptr;
 		pRight = nullptr;

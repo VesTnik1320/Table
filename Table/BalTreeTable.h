@@ -1,6 +1,6 @@
 #pragma once
 #include "TreeTable.h"
-
+#include "Record.h"
 enum Status { H_DEC, H_OK, H_INC };
 
 template< typename TKey, typename TVal>
@@ -19,7 +19,7 @@ protected:
 public:
     bool Insert(TRecord rec) {
         if (Find(rec.key))
-            throw "Error this key exists!"
+            throw "Error this key exists!";
             InsBalTree(pRoof, rec);
     }
 

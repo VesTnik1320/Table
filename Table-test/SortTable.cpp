@@ -1,73 +1,94 @@
 #include "pch.h"
 #include "../Table/SortTable.h"
 
-TEST(SortTable, CANT_INSERT_FULL)
-{
-	SortTable<int, int> st1;
-	for (int i = 0; i < 10; i++)
-	{
-		st1.Insert(i, i);
-	}
-	EXPECT_ANY_THROW(st1.Insert(10, 10));
+
+TEST(SortTable, InsertAndFind) {
+    SortTable<int, int> table(5);
+
+    table.Insert(1);
+    table.Insert(3);
+    table.Insert(2);
+
+    EXPECT_TRUE(table.Find(1));
+    EXPECT_TRUE(table.Find(2));
+    EXPECT_TRUE(table.Find(3));
+    EXPECT_FALSE(table.Find(5));
 }
 
-TEST(SortTable, CANT_INSERT_BEING)
-{
-	SortTable<int, int> st1;
-	st1.Insert(10, 100);
-	EXPECT_ANY_THROW(st1.Insert(10, 10));
+TEST(SortTable, InsertDuplicateThrows) {
+    SortTable<int, int> table(3);
+
+    table.Insert(1);
+    EXPECT_ANY_THROW(table.Insert(1));  // дубликат
 }
 
-TEST(SortTable, CORRECT_INSERT)
-{
-	SortTable<int, int> st1;
-	int a1[5] = { 40, 2, 1, -1, 0 };
-	int a2[5] = { -1, 0, 1, 2, 40 };
-	for (size_t i = 0; i < 5; i++)
-	{
-		st1.Insert(a1[i], a1[i]);
-	}
-	int i = 0;
-	for (st1.Reset(); !st1.IsEnd(); st1.GoNext())
-	{
-		EXPECT_EQ(st1.GetCurrVal(), a2[i]);
-		i++;
-	}
+TEST(SortTable, InsertOverflowThrows) {
+    SortTable<int, int> table(2);
+
+    table.Insert(1);
+    table.Insert(2);
+    EXPECT_ANY_THROW(table.Insert(3));
 }
 
-TEST(SortTable, CORRECT_DELETE)
-{
-	SortTable<int, int> st1;
-	int a1[5] = { 40, 2, 1, -1, 0 };
-	int a2[4] = { 0, 1, 2, 40 };
-	for (size_t i = 0; i < 5; i++)
-	{
-		st1.Insert(a1[i], a1[i]);
-	}
-	st1.Delete(-1);
-	int i = 0;
-	for (st1.Reset(); !st1.IsEnd(); st1.GoNext())
-	{
-		EXPECT_EQ(st1.GetCurrVal(), a2[i]);
-		i++;
-	}
+TEST(SortTable, DeleteExisting) {
+    SortTable<int, int> table(3);
+
+    table.Insert(1);
+    table.Insert(2);
+    EXPECT_NO_THROW(table.Delete(1));
+    EXPECT_FALSE(table.Find(1));
 }
 
-TEST(SortTable, CANT_DELETE_NO_BEING)
-{
-	SortTable<int, int> st1;
-	EXPECT_ANY_THROW(st1.Delete(10));
+TEST(SortTable, DeleteNonExistingThrows) {
+    SortTable<int, int> table(2);
+    table.Insert(1);
+    EXPECT_ANY_THROW(table.Delete(42));
 }
 
-TEST(SortTable, CORRECT_ASSING)
-{
-	SortTable<int, int> st1, st2;
-	for (int i = 0; i < 5; i++)
-	{
-		st1.Insert(i, i);
-	}
-	st2 = st1;
-	st2.Delete(4);
-	EXPECT_EQ(st1.Find(4), true);
-	EXPECT_EQ(st2.Find(4), false);
+TEST(SortTable, SelectSortWorks) {
+    SortTable<int, int> table(3);
+    table.Insert(3);
+    table.Insert(1);
+    table.Insert(2);
+    table.SelectSort();
+
+    table.Reset();
+    EXPECT_EQ(table.GetCurr().key, 1);
+    table.GoNext();
+    EXPECT_EQ(table.GetCurr().key, 2);
+    table.GoNext();
+    EXPECT_EQ(table.GetCurr().key, 3);
+}
+
+TEST(SortTable, QSortRecWorks) {
+    SortTable<int, int> table(3);
+    table.Insert(9);
+    table.Insert(2);
+    table.Insert(5);
+    table.QSortRec(0, 2);
+
+    table.Reset();
+    EXPECT_EQ(table.GetCurr().key, 2);
+    table.GoNext();
+    EXPECT_EQ(table.GetCurr().key, 5);
+    table.GoNext();
+    EXPECT_EQ(table.GetCurr().key, 9);
+}
+
+TEST(SortTable, MergeSortWorks) {
+    SortTable<int, int> table(4);
+    table.Insert(8);
+    table.Insert(3);
+    table.Insert(6);
+    table.Insert(1);
+    table.MergeSort(0, 3);
+
+    table.Reset();
+    EXPECT_EQ(table.GetCurr().key, 1);
+    table.GoNext();
+    EXPECT_EQ(table.GetCurr().key, 3);
+    table.GoNext();
+    EXPECT_EQ(table.GetCurr().key, 6);
+    table.GoNext();
+    EXPECT_EQ(table.GetCurr().key, 8);
 }
