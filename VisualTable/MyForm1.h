@@ -125,46 +125,46 @@ namespace VisualTable {
             // ... остальные элементы ...
         }
 
-        Table<String^, int>* CreateSelectedTable() {
-            if (arrayTableRadio->Checked)
-                return new ArrayTable<String^, int>(100);
-            // ... аналогично для других типов ...
-            return nullptr;
-        }
+        //Table<String^, int>* CreateSelectedTable() {
+        //    if (arrayTableRadio->Checked)
+        //        return new ArrayTable<String^, int>(100);
+        //    // ... аналогично для других типов ...
+        //    return nullptr;
+        //}
 
-        void UpdateTableDisplay() {
+        /*void UpdateTableDisplay() {
             dataGridView->Rows->Clear();
             if (!currentTable) return;
 
             currentTable->Reset();
             while (!currentTable->IsEnd()) {
                 auto record = currentTable->GetCurr();
-                dataGridView->Rows->Add(record.key, record.value);
+                dataGridView->Rows->Add(record.key, record.val);
                 currentTable->GoNext();
             }
-        }
+        }*/
 
-        void initButton_Click(Object^ sender, EventArgs^ e) {
-            try {
-                if (currentTable) delete currentTable;
-                currentTable = CreateSelectedTable();
+        //void initButton_Click(Object^ sender, EventArgs^ e) {
+        //    try {
+        //        if (currentTable) delete currentTable;
+        //        currentTable = CreateSelectedTable();
 
-                int count = Int32::Parse(keyCountBox->Text);
-                int maxVal = Int32::Parse(valueRangeBox->Text);
+        //        int count = Int32::Parse(keyCountBox->Text);
+        //        int maxVal = Int32::Parse(valueRangeBox->Text);
 
-                Random^ rand = gcnew Random();
-                for (int i = 0; i < count; i++) {
-                    String^ key = "Key_" + i.ToString();
-                    int value = rand->Next(1, maxVal);
-                    currentTable->Insert(Record<String^, int>{key, value});
-                }
+        //        Random^ rand = gcnew Random();
+        //        for (int i = 0; i < count; i++) {
+        //            String^ key = "Key_" + i.ToString();
+        //            int value = rand->Next(1, maxVal);
+        //            currentTable->Insert(Record<String^, int>{key, value});
+        //        }
 
-                UpdateTableDisplay();
-            }
-            catch (Exception^ e) {
-                MessageBox::Show("Error: " + e->Message);
-            }
-        }
+        //        UpdateTableDisplay();
+        //    }
+        //    catch (Exception^ e) {
+        //        MessageBox::Show("Error: " + e->Message);
+        //    }
+        //}
 
         // ... другие обработчики ...
     };

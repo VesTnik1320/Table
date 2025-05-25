@@ -57,7 +57,7 @@ public:
         return false;  
     }  
 
-    void Insert(TKey key) override {  
+    void Insert(TKey key)  {  
         if (Find(key))  
             throw "Error this rec exists!";  
         pRec[curr].key = key;  

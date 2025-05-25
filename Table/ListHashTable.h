@@ -22,7 +22,7 @@ public:
         delete[] pList;
     }
 
-    bool Find(TKey key) override {
+    bool Find(TKey key)  {
         CurrList = this->HashFunc(key);
         for (currI = pList[CurrList].begin(); currI != pList[CurrList].end(); ++currI) {
             this->Eff++;
@@ -32,7 +32,7 @@ public:
         return false;
     }
 
-    void Insert(Record<TKey, TVal> rec) override {
+    void Insert(Record<TKey, TVal> rec)  {
         if (this->DataCount == this->size - 1)
             throw "Error, no space for new record!";
         if (Find(rec.key))
@@ -53,7 +53,7 @@ public:
         this->Eff++;
     }
 
-    void Delete(TKey key) override {
+    void Delete(TKey key)  {
         if (!Find(key))
             throw "Error, key not found!";
 
@@ -62,7 +62,7 @@ public:
         this->Eff++;
     }
 
-    void Reset() override {
+    void Reset()  {
         CurrList = 0;
         currI = pList[CurrList].begin();
         while (currI == pList[CurrList].end() && CurrList < this->size - 1) {
@@ -71,11 +71,11 @@ public:
         }
     }
 
-    bool IsEnd() override {
+    bool IsEnd() {
         return CurrList >= this->size;
     }
 
-    void GoNext() override {
+    void GoNext()  {
         if (currI != pList[CurrList].end())
             ++currI;
 
@@ -85,28 +85,28 @@ public:
         }
     }
 
-    void Clear() override {
+    void Clear()  {
         this->DataCount = 0;
         for (int i = 0; i < this->size; i++) {
             pList[i].clear();
         }
     }
 
-    bool IsFull() const override {
+    bool IsFull() const  {
         return this->DataCount >= this->size - 1;
     }
 
-    Record<TKey, TVal> GetCurr() override {
+    Record<TKey, TVal> GetCurr()  {
         if (IsEnd())
             throw "Error: iterator at end position";
         return *currI;
     }
 
-    TKey GetCurrKey() override {
+    TKey GetCurrKey() {
         return GetCurr().key;
     }
 
-    TVal GetCurrVal() override {
+    TVal GetCurrVal() {
         return GetCurr().value;
     }
 };

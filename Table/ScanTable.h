@@ -1,3 +1,4 @@
+#pragma once
 #include "Table.h"
 #include "ArrayTable.h"
 #include "Record.h"
@@ -6,7 +7,7 @@ class ScanTable : public ArrayTable<Tkey, TVal> {
 public:  
     ScanTable(int _size) : ArrayTable<Tkey, TVal>(_size) {}  
 
-    bool Find(Tkey key) override {  
+    bool Find(Tkey key) {  
         for (int i = 0; i < this->DataCount; i++) {  
             this->eff++;  
             if (key == this->pRec[i].key) {  
@@ -18,7 +19,7 @@ public:
         return false;  
     }  
 
-    void Insert(Tkey key) override {
+    void Insert(Tkey key) {
         if (Find(key))
             throw - 2;  // Уже существует
         if (this->DataCount == this->size)
@@ -30,37 +31,37 @@ public:
     }
 
 
-    void Delete(Tkey key) override {  
+    void Delete(Tkey key) {  
         if (!Find(key)) throw -3;  
         this->pRec[this->Curr] = this->pRec[this->DataCount - 1];  
         this->DataCount--;  
         this->eff++;  
     }  
 
-    void Clear() override {  
+    void Clear()  {  
         this->DataCount = 0;  
     }  
 
-    void Reset() override {  
+    void Reset()  {  
         this->Curr = 0;  
     }  
 
-    void GoNext() override {  
+    void GoNext()  {  
         if (this->Curr < this->DataCount)  
             this->Curr++;  
     }  
 
-    bool IsEnd() override {  
+    bool IsEnd()  {  
         return this->Curr >= this->DataCount;  
     }  
 
-    Record<Tkey, TVal> GetCurr() override {  
+    Record<Tkey, TVal> GetCurr()  {  
         if (this->Curr < this->DataCount)  
             return this->pRec[this->Curr];  
         throw -4;  
     }  
 
-    bool IsFull() const override {  
+    bool IsFull() const  {  
         return this->DataCount == this->size;  
     }  
 };
