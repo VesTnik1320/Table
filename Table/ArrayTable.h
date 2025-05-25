@@ -14,7 +14,7 @@ public:
     TValue GetCurrVal() { return pRec[Curr].val; } // Fixed: Changed TVal to TValue
     Record<TKey, TValue> GetCurrRec() { return pRec[Curr]; } // Fixed: Changed TVal to TValue
     ~ArrayTable() { delete[] pRec; }
-    void Clear() { dataCount = 0; }
+    void Clear() { DataCount = 0; }
     bool IsFull() const { return DataCount == size; }
     bool IsEmpty() { return size == 0; }
 

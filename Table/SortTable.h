@@ -5,21 +5,23 @@
 #include "Record.h"
 template <typename Tkey, typename TVal>
 class SortTable : public ScanTable<Tkey, TVal> {
+protected:
+	Record<Tkey, TVal>* tmpArr;
 public:
-	SortTable(int _size) : ScanTable(_size) {}
+	SortTable(int _size) : ScanTable<Tkey, TVal>(_size) {}
 
 	bool Find(Tkey key) {
 		int l = 0, r = DataCount - 1;
 		while (l <= r)
 		{
 			int m = (l + r) / 2;
-			eff++;
+			this->Eff++;
 			if (key == pRec[m].key) {
 				Curr = 0;
 				return true;
 			}
 			else
-				if (Key > pRec[m].key)
+				if (key > pRec[m].key)
 					l = m + 1;
 				else
 					if (key < pRec[m].key)
@@ -32,11 +34,11 @@ public:
 
 
 		}
-		curr = l;
+		this->Curr = l;
 		return false;
 	}
 
-	int Insert(Tkey key) {
+	void Insert(Tkey key) {
 		if (this->IsFull())
 			throw - 1;  // Таблица заполнена
 
@@ -46,24 +48,24 @@ public:
 
 		for (int i = this->DataCount; i > this->Curr; i--) {
 			this->pRec[i] = this->pRec[i - 1];
-			this->eff++;
+			this->Eff++;
 		}
 
 		this->pRec[this->Curr].key = key;
 		this->DataCount++;
-		return 0;
+		//return 0;
 	}
 
 
 	void Delete(Tkey key) {
 		bool res = Find(key);
 		if (res == false) throw - 1;
-		for (int i = Curr; i < DataCount - 1; i++) {
+		for (int i = Curr; i < this->DataCount - 1; i++) {
 			pRec[i] = pRec[i + 1];
-			eff++;
+			this->Eff++;
 		}
-		DataCount--;
-		return 0;
+		this->DataCount--;
+		//return 0;
 	}
 
 	void SelectSort() {
@@ -78,7 +80,7 @@ public:
 					k = j;
 				}
 			}
-			Record tmp = pRec[k];
+			Record<Tkey, TVal> tmp = pRec[k];
 			pRec[k] = pRec[i];
 			pRec[i] = tmp;
 		}
@@ -86,24 +88,24 @@ public:
 
 	void QSortRec(int st, int fin) {
 		int l = st, j = fin;
-		Record k = pRec[(l + r) / 2];
-		while (l < r) {
+		Record<Tkey, TVal> k = pRec[(l + j) / 2];
+		while (l < j) {
 			while (pRec[l] < k)
 				l++;
-			while (pRec[r] > k)
+			while (pRec[j] > k)
 			{
-				r--;
+				j--;
 			}
-			if (l <= r) {
-				Record tmp = pRec[l];
-				pRec[l] = pRec[r];
-				pRec[r] = tmp;
+			if (l <= j) {
+				Record<Tkey, TVal> tmp = pRec[l];
+				pRec[l] = pRec[j];
+				pRec[j] = tmp;
 				l++;
-				r--;
+				j--;
 			}
 		}
 		if (st < l) QSortRec(st, l);
-		if (fin > r) QSortRec(r, fin);
+		if (fin > j) QSortRec(j, fin);
 	}
 
 	void Merge(int l, int r, int m) {
@@ -131,7 +133,7 @@ public:
 		}
 		else
 		{
-			while (j >= right) {
+			while (j >= r) {
 				tmpArr[k] = pRec[j];
 				j++;
 				k++;

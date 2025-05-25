@@ -9,7 +9,7 @@ public:
 
     bool Find(Tkey key) {  
         for (int i = 0; i < this->DataCount; i++) {  
-            this->eff++;  
+            this->Eff++;  
             if (key == this->pRec[i].key) {  
                 this->Curr = i;  
                 return true;  
@@ -27,7 +27,7 @@ public:
 
         this->pRec[this->Curr].key = key;
         this->DataCount++;
-        this->eff++;
+        this->Eff++;
     }
 
 
@@ -35,7 +35,7 @@ public:
         if (!Find(key)) throw -3;  
         this->pRec[this->Curr] = this->pRec[this->DataCount - 1];  
         this->DataCount--;  
-        this->eff++;  
+        this->Eff++;  
     }  
 
     void Clear()  {  
